@@ -12,3 +12,4 @@ C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\refint\SupportBank.dll
 C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\SupportBank.pdb
 C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\SupportBank.genruntimeconfig.cache
 C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\ref\SupportBank.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\SupportBank.sourcelink.json

@@ -1,26 +1,35 @@
 
 
+using System.Reflection.Metadata.Ecma335;
+using Microsoft.VisualBasic;
+
 namespace SupportBank.BankManagement;
 
 public class Account
 {
-    // public Dictionary<string,decimal> balances = [];
-    // public checkBalance()
-    // foreach(var transaction in transactions)
-    // {
-    //     if(!balances.ContainsKey(transaction.From))
-    //     {
-    //         balances[transaction.From] = 0;
-    //     }
-    //     if(!balances.ContainsKey(transaction.To))
-    //     {
-    //         balances[transaction.To] = 0;
-    //     }
-    //      balances[transaction.From] -=transaction.Amount;
-    //      balances[transaction.To] +=transaction.Amount;
-    // }
-    // foreach(var balance in balances)
-    // {
-    //     Console.WriteLine($"{balance.Key}  {balance.Value}");
-    // }
+    public string Name{get;set;}
+
+   public decimal Balance { get; set; }
+    public List<Transaction> Transactions {get; set;}
+    public Account(string name)
+    {
+        Name=name;
+        Transactions= new List<Transaction>();
+        
+    }
+    public void GetAccountTransactions () {
+        foreach(var trans in Bank.Transactions)
+        {
+            if(trans.From.Name == Name)
+            {
+                Balance -= trans.Amount;
+                Transactions.Add(trans);
+            }
+            if(trans.To.Name == Name)
+            {
+                Balance += trans.Amount;
+                Transactions.Add(trans);
+            }
+        }
+    }
 }
