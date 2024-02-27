@@ -13,3 +13,17 @@ C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\SupportBank.pdb
 C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\SupportBank.genruntimeconfig.cache
 C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\ref\SupportBank.dll
 C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\SupportBank.sourcelink.json
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\NLog.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\SupportBank.csproj.AssemblyReference.cache
+C:\Users\ZheHu\TechSwitch\SupportBank\obj\Debug\net8.0\SupportB.540BFCCB.Up2Date
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\CsvHelper.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\System.Linq.Async.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\nlog.config
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\ZheHu\TechSwitch\SupportBank\bin\Debug\net8.0\NLog.Extensions.Logging.dll
