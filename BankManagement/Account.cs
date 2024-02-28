@@ -8,39 +8,15 @@ namespace SupportBank.BankManagement;
 
 public class Account
 {
-    public string Name{get;set;}
+    public required string Name{get;set;}
 
-   public decimal Balance { get; set; }
-    public List<Transaction> Transactions {get; init;} 
+   public decimal Balance { get; set; } = 0;
+    public List<Transaction> Transactions {get; } = [];
     private readonly ILogger<Bank> _logger;
-    private string getUser;
+    // private string getUser;
 
-    public Account(string name,ILogger<Bank> logger)
+    public Account(ILogger<Bank> logger)
     {
-        _logger = logger;
-        Name=name;        
+        _logger = logger;       
     }
-
-     public void GetAccountTransactions () {
-        // Console.WriteLine($"Account Name to check {Name}");
-       
-        foreach(var trans in Bank.Transactions)
-        {
-            Console.WriteLine(trans.Amount);
-            if(trans.From == Name)            {
-                // Console.WriteLine($"Account trans to check {trans.Amount}");
-                Balance -= trans.Amount;
-                Transactions.Add(trans);
-            }
-            if(trans.To == Name)
-            {
-                Balance += trans.Amount;
-                Transactions.Add(trans);
-            }
-        }
-     Console.WriteLine($"balance for:{Balance}");
-    _logger.LogInformation("balance for:{Balance}.", Balance);
-     //   Console.WriteLine($"balance for:{Balance}");
-    }
-    
 }

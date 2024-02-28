@@ -10,32 +10,50 @@ namespace SupportBank.BankManagement;
 
 public class Bank
 {
-    // private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
-    public HashSet<Account> AccountList { get; set; } = [];
-    public static Dictionary<string, decimal> balances { get; set; }
+    public Dictionary<string, Account> Accounts { get; set; } = [];
 
     private readonly ILogger<Bank> _logger;
 
     public Bank(ILogger<Bank> logger)
     {
         _logger = logger;
-        balances = new Dictionary<string, decimal>();
     }
 
-    public static IEnumerable<Transaction> Transactions { get; set; } = [];
-
-    public decimal Balance = 0;
     public void AddTransactionList(string fileName)
     {
         Console.Write("Enter the name of the file you wish to read from: ");
         try
         {
-             _logger.LogInformation("Add transaction logger starting");
+            _logger.LogInformation("Add transaction logger starting");
 
-            var fileReader = new StreamReader(fileName);
-            var csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture);
-        //    _logger.LogInformation("csv convertion sucessful");
-            Transactions = csvReader.GetRecords<Transaction>();
+            using var fileReader = new StreamReader(fileName);
+            using var csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture);
+            var transactions = csvReader.GetRecords<Transaction>();
+            foreach (var transaction in transactions)
+            {
+                if(!Accounts.TryGetValue(transaction.From, out var fromAccount))
+                {
+                    fromAccount = new Account(_logger)
+                    {
+                        Name = transaction.From,
+                    };
+                    Accounts.Add(transaction.From, fromAccount);
+                }
+                if(!Accounts.TryGetValue(transaction.To, out var toAccount))
+                {
+                    toAccount = new Account(_logger)
+                    {
+                        Name = transaction.To,
+                    };
+                    Accounts.Add(transaction.To, toAccount);
+                }
+
+                fromAccount.Balance -= transaction.Amount;
+                toAccount.Balance += transaction.Amount;
+                fromAccount.Transactions.Add(transaction);
+                toAccount.Transactions.Add(transaction);
+
+            }
             //_logger.LogInformation("csv convertion sucessful");
          //  Console.WriteLine("Here is the content of your file:");
             // foreach (var singleLine in Transactions)
@@ -58,49 +76,34 @@ public class Bank
         {
             Console.WriteLine("Sorry, that file wcoas not found.");
         }
-        catch (CsvHelper.TypeConversion.TypeConverterException  msg)
+        catch (CsvHelper.TypeConversion.TypeConverterException  )
         {
           //  _logger.LogInformation("New account created for {singleLine.From}.", msg);
-
-             
             Console.WriteLine($"Sorry, that file doesn't match the format.");
         }
 
     }   
 
-    public void checkBalance()
+    public void CheckBalances()
     {
         _logger.LogInformation("Check Balance starting.");
-        foreach (var transaction in Transactions)
+        foreach(var (accountName,account) in Accounts)
         {
-            if (!balances.ContainsKey(transaction.From))
-                balances[transaction.From] = 0m;
-
-            if (!balances.ContainsKey(transaction.To))
-                balances[transaction.To] = 0m;
-
-            balances[transaction.From] -= transaction.Amount;
-            balances[transaction.To] += transaction.Amount;
-        }
-
-        foreach (var balance in balances)
-        {
-            _logger.LogInformation($"{balance.Key} balance: {balance.Value:C}");
-           // Console.WriteLine($"{balance.Key} balance: {balance.Value:C}");
+            Console.WriteLine($"{accountName}: {account.Balance}");
         }
     }
 
-     public void checkBalance(string name)
+    public void CheckTransactions (string name)
     {
-
-        Console.WriteLine($"{name} balance: {balances[name]}.");
+        foreach(var transaction in Accounts[name].Transactions)
+        {
+            Console.WriteLine($"{transaction.Date} From: {transaction.From} To: {transaction.To} Narrative:{transaction.Narrative} Amount: {transaction.Amount}");
+        }
     }
 
-
-    public void checkBalance(Account account)
+     public void CheckBalance(string name)
     {
 
-        Console.WriteLine($"{account.Name}'s balance: {account.Balance}.");
+        Console.WriteLine($"{name} balance: {Accounts[name].Balance}.");
     }
-
 }
