@@ -8,4 +8,8 @@ public class Transaction{
     public string Narrative{get;set;}
     public decimal Amount{get;set;}
 
+    public override string ToString()
+    {
+        return $"{Date} From: {From} To: {To} Narrative: {Narrative} Amount: {Amount}";
+    }
 }

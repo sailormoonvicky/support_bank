@@ -28,32 +28,69 @@ public class Bank
 
             using var fileReader = new StreamReader(fileName);
             using var csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture);
-            var transactions = csvReader.GetRecords<Transaction>();
-            foreach (var transaction in transactions)
+            try 
             {
-                if(!Accounts.TryGetValue(transaction.From, out var fromAccount))
-                {
-                    fromAccount = new Account(_logger)
-                    {
-                        Name = transaction.From,
-                    };
-                    Accounts.Add(transaction.From, fromAccount);
-                }
-                if(!Accounts.TryGetValue(transaction.To, out var toAccount))
-                {
-                    toAccount = new Account(_logger)
-                    {
-                        Name = transaction.To,
-                    };
-                    Accounts.Add(transaction.To, toAccount);
-                }
+                var transactions = csvReader.GetRecords<Transaction>();
 
-                fromAccount.Balance -= transaction.Amount;
-                toAccount.Balance += transaction.Amount;
-                fromAccount.Transactions.Add(transaction);
-                toAccount.Transactions.Add(transaction);
+                foreach (var transaction in transactions)
+                {
+                    if(!Accounts.TryGetValue(transaction.From, out var fromAccount))
+                    {
+                        fromAccount = new Account(_logger)
+                        {
+                            Name = transaction.From,
+                        };
+                        Accounts.Add(transaction.From, fromAccount);
+                    }
+                    if(!Accounts.TryGetValue(transaction.To, out var toAccount))
+                    {
+                        toAccount = new Account(_logger)
+                        {
+                            Name = transaction.To,
+                        };
+                        Accounts.Add(transaction.To, toAccount);
+                    }
 
+                    fromAccount.Balance -= transaction.Amount;
+                    toAccount.Balance += transaction.Amount;
+                    fromAccount.Transactions.Add(transaction);
+                    toAccount.Transactions.Add(transaction);
+
+                }
             }
+            catch (CsvHelper.TypeConversion.TypeConverterException  ex)
+            {
+                _logger.LogError("This csv file doesn't match the format");
+                _logger.LogDebug(ex.StackTrace);
+                Console.WriteLine($"Sorry, that file doesn't match the format.");
+            }
+
+            
+            // foreach (var transaction in transactions)
+            // {
+            //     if(!Accounts.TryGetValue(transaction.From, out var fromAccount))
+            //     {
+            //         fromAccount = new Account(_logger)
+            //         {
+            //             Name = transaction.From,
+            //         };
+            //         Accounts.Add(transaction.From, fromAccount);
+            //     }
+            //     if(!Accounts.TryGetValue(transaction.To, out var toAccount))
+            //     {
+            //         toAccount = new Account(_logger)
+            //         {
+            //             Name = transaction.To,
+            //         };
+            //         Accounts.Add(transaction.To, toAccount);
+            //     }
+
+            //     fromAccount.Balance -= transaction.Amount;
+            //     toAccount.Balance += transaction.Amount;
+            //     fromAccount.Transactions.Add(transaction);
+            //     toAccount.Transactions.Add(transaction);
+
+            // }
             //_logger.LogInformation("csv convertion sucessful");
          //  Console.WriteLine("Here is the content of your file:");
             // foreach (var singleLine in Transactions)
@@ -76,11 +113,12 @@ public class Bank
         {
             Console.WriteLine("Sorry, that file wcoas not found.");
         }
-        catch (CsvHelper.TypeConversion.TypeConverterException  )
-        {
-          //  _logger.LogInformation("New account created for {singleLine.From}.", msg);
-            Console.WriteLine($"Sorry, that file doesn't match the format.");
-        }
+        // catch (CsvHelper.TypeConversion.TypeConverterException  ex)
+        // {
+        //     _logger.LogError("This csv file doesn't match the format");
+        //    _logger.LogDebug(ex.StackTrace);
+        //     Console.WriteLine($"Sorry, that file doesn't match the format.");
+        // }
 
     }   
 
@@ -97,7 +135,7 @@ public class Bank
     {
         foreach(var transaction in Accounts[name].Transactions)
         {
-            Console.WriteLine($"{transaction.Date} From: {transaction.From} To: {transaction.To} Narrative:{transaction.Narrative} Amount: {transaction.Amount}");
+            Console.WriteLine(transaction);
         }
     }
 
